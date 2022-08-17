@@ -1,0 +1,60 @@
+package main
+
+import (
+	"fmt"
+	"strconv"
+	"time"
+)
+
+type UTC struct {
+	timezone, utcZ string
+	timeZ          int
+}
+
+func formatTime(rawtime string) time.Time {
+	timeUTC := map[string]string{
+		"04:00": "UTC+4",
+		"05:00": "UTC+5",
+		"06:00": "UTC+6",
+	}
+
+	UTCval := map[string]int{
+		"UTC+4": 4 * 60 * 60,
+		"UTC+5": 5 * 60 * 60,
+		"UTC+6": 6 * 60 * 60,
+	}
+
+	year := string(rawtime[0:4]) // 2022-04-01T19:30:00+06:00
+	month := string(rawtime[5:7])
+	day := string(rawtime[8:10])
+
+	hour := string(rawtime[11:13])
+	mins := string(rawtime[14:16])
+	secs := string(rawtime[17:19])
+
+	tz := string(rawtime[20:25])
+
+	yearINT, err := strconv.Atoi(year)
+	monthINT, err := strconv.Atoi(month)
+	dayINT, err := strconv.Atoi(day)
+	hourINT, err := strconv.Atoi(hour)
+	minsINT, err := strconv.Atoi(mins)
+	secsINT, err := strconv.Atoi(secs)
+
+	if err != nil {
+		fmt.Errorf("err")
+	}
+
+	value_1 := timeUTC[tz]
+	value_2 := UTCval[value_1]
+
+	formattedTime := time.Date(yearINT, time.Month(monthINT), dayINT, hourINT, minsINT, secsINT, 0, time.FixedZone(value_1, value_2))
+
+	return formattedTime
+}
+
+func main() {
+
+	fmt.Println(formatTime("2022-04-01T19:30:00+06:00"))
+
+}
