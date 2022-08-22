@@ -2,9 +2,10 @@ package main
 
 import (
 	"fmt"
-	"github.com/pokemonguy1/sessionchecker/model"
 	"sort"
 	"time"
+
+	"github.com/pokemonguy1/sessionchecker/model"
 
 	"github.com/xuri/excelize/v2"
 )
@@ -149,7 +150,12 @@ func CreateExcel(sessions []Session) {
 func main() {
 
 	seancesss := []model.Seance{
-		{},
+		{
+			Name:      "superman",
+			Reference: &model.SeanceReference{Hall: "1"},
+			Timeframe: &model.SeanceTimeframe{Start: "2022-04-01T19:30:00+06:00", End: "2022-04-01T20:30:00+06:00"},
+			Uuid:      "123",
+		},
 	}
 
 	fmt.Println(seancesss)
