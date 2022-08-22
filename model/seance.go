@@ -2,6 +2,7 @@ package model
 
 import (
 	"fmt"
+
 	"go.mongodb.org/mongo-driver/bson/primitive"
 )
 
@@ -21,9 +22,9 @@ type SeanceProperties struct {
 }
 
 type SeanceTimeframe struct {
-	Start    *string `bson:"start" json:"start,omitempty"`       // Start time
-	End      *string `bson:"end" json:"end,omitempty"`           // End time
-	Interval uint32  `bson:"interval" json:"interval,omitempty"` // Internal
+	Start    string `bson:"start" json:"start,omitempty"`       // Start time
+	End      string `bson:"end" json:"end,omitempty"`           // End time
+	Interval uint32 `bson:"interval" json:"interval,omitempty"` // Internal
 }
 
 type SeanceDeadline struct {
@@ -66,11 +67,7 @@ type SeanceDiscount struct {
 }
 
 type SeanceReference struct {
-	City   *primitive.ObjectID `bson:"city" json:"city,omitempty"`     // Object id
-	Object *primitive.ObjectID `bson:"object" json:"object,omitempty"` // Object id
-	Hall   *primitive.ObjectID `bson:"hall" json:"hall,omitempty"`     // Object id
-	Plan   *primitive.ObjectID `bson:"plan" json:"plan,omitempty"`     // Object id
-	Movie  *primitive.ObjectID `bson:"movie" json:"movie,omitempty"`   // Object id
+	Hall string `bson:"hall" json:"hall,omitempty"` // Object id
 }
 
 type Seance struct {
