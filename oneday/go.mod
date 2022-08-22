@@ -3,7 +3,7 @@ module oneday
 go 1.18
 
 require (
-	github.com/pokemonguy1/sessionchecker v0.0.0-20220822090627-3a13c4afcc14
+	github.com/pokemonguy1/sessionchecker v0.0.0-20220822111929-5b269bf884e1
 	github.com/xuri/excelize/v2 v2.6.1
 )
 

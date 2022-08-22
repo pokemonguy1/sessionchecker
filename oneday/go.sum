@@ -14,8 +14,8 @@ github.com/montanaflynn/stats v0.0.0-20171201202039-1bf9dbcd8cbe/go.mod h1:wL8QJ
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
 github.com/pmezard/go-difflib v1.0.0/go.mod h1:iKH77koFhYxTK1pcRnkKkqfTogsbg7gZNVY4sRDYZ/4=
-github.com/pokemonguy1/sessionchecker v0.0.0-20220822090627-3a13c4afcc14 h1:shLi9Q2w//Vh0MjbVbge4jAMHfWIMvgGmx1Kpi84nl0=
-github.com/pokemonguy1/sessionchecker v0.0.0-20220822090627-3a13c4afcc14/go.mod h1:IefpY2pHFBrv6t5bmtoMivlV4LyKEMh4mWAQ+HZ+hqA=
+github.com/pokemonguy1/sessionchecker v0.0.0-20220822111929-5b269bf884e1 h1:wNJnKHwopW9tVJxQf2nrP8YR77YdU8+E6dB+4qefwbE=
+github.com/pokemonguy1/sessionchecker v0.0.0-20220822111929-5b269bf884e1/go.mod h1:IefpY2pHFBrv6t5bmtoMivlV4LyKEMh4mWAQ+HZ+hqA=
 github.com/richardlehane/mscfb v1.0.4 h1:WULscsljNPConisD5hR0+OyZjwK46Pfyr6mPu5ZawpM=
 github.com/richardlehane/mscfb v1.0.4/go.mod h1:YzVpcZg9czvAuhk9T+a3avCpcFPMUWm7gK3DypaEsUk=
 github.com/richardlehane/msoleps v1.0.1/go.mod h1:BWev5JBpU9Ko2WAgmZEuiz4/u3ZYTKbjLycmwiWUfWg=
