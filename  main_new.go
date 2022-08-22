@@ -33,9 +33,12 @@ func CreateExcel(sessions []Session) {
 
 	file := excelize.NewFile()
 
-	num := 4
+	if err := file.MergeCell("Sheet1", "A1", "J1"); err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	rowMaker := func(row string, hid int, startT string, endT string, dur string, interval int, name string, priceA float64, priceS float64, priceC float64) {
+	CreateRow := func(row string, hid int, startT string, endT string, dur string, interval int, name string, priceA float64, priceS float64, priceC float64) {
 		file.SetCellValue("Sheet1", "B"+row, hid) //INFO ROW OF SESSION
 		file.SetCellValue("Sheet1", "C"+row, startT)
 		file.SetCellValue("Sheet1", "D"+row, endT)
@@ -47,32 +50,33 @@ func CreateExcel(sessions []Session) {
 		file.SetCellValue("Sheet1", "J"+row, priceC)
 	}
 
+	doRowJump := func(erowN int) {
+
+		erow := fmt.Sprintf("%d", erowN)
+
+		file.SetCellValue("Sheet1", "B"+erow, "") //INFO ROW OF SESSION
+		file.SetCellValue("Sheet1", "C"+erow, "")
+		file.SetCellValue("Sheet1", "D"+erow, "")
+		file.SetCellValue("Sheet1", "E"+erow, "")
+		file.SetCellValue("Sheet1", "F"+erow, "")
+		file.SetCellValue("Sheet1", "G"+erow, "")
+		file.SetCellValue("Sheet1", "H"+erow, "")
+		file.SetCellValue("Sheet1", "I"+erow, "")
+		file.SetCellValue("Sheet1", "J"+erow, "")
+	}
+
+	num := 5
 	jump := true
 	bigjump := true
 
 	for i := range sessions {
 
-		row := fmt.Sprintf("%d", i+num) //DECLARATION OF VARIABLES
+		daterow := fmt.Sprintf("%d", i+num)
 		startrow := fmt.Sprintf("%d", i+num-1)
-		daterow := fmt.Sprintf("%d", num-3)
+		row := fmt.Sprintf("%d", i+num-2)
 
 		starttime := fmt.Sprintf("%d : %d", sessions[i].startTime.Hour(), sessions[i].startTime.Minute())
 		endtime := fmt.Sprintf("%d : %d", sessions[i].endTime.Hour(), sessions[i].endTime.Minute())
-
-		day := fmt.Sprintf("%d", sessions[i].startTime.Day())
-		month := fmt.Sprintf("%v", sessions[i].startTime.Month())
-
-		if bigjump == true {
-
-			if err := file.MergeCell("Sheet1", "A"+daterow, "J"+daterow); err != nil {
-				fmt.Println(err)
-				return
-			}
-
-			file.SetCellValue("Sheet1", "A"+daterow, "Репертуар на "+day+" "+month)
-			bigjump = false
-			fmt.Println(daterow, "NEW LIST", "NUM: ", num)
-		}
 
 		var duration string
 
@@ -90,7 +94,28 @@ func CreateExcel(sessions []Session) {
 			duration = fmt.Sprintf("%d : %d", hour, minute)
 		}
 
-		if jump == true {
+		if bigjump == true {
+
+			fmt.Println("about to jump...")
+
+			run := num
+
+			for i := 1; i < 5; i++ {
+				doRowJump(i + run)
+				fmt.Println(run)
+				run++
+			}
+
+			num = run
+
+			fmt.Println("jumped! ", num)
+			fmt.Println(row, "date row")
+
+			file.SetCellValue("Sheet1", "A"+daterow, "Repertoire for [date]")
+
+		}
+
+		if jump == true || bigjump == true {
 
 			file.SetCellValue("Sheet1", "B"+startrow, "Зал"+fmt.Sprintf(" %d", sessions[i].hall_id)) //NEW STARTING ROW CAUSED BY INCREASE OF HALL ID
 			file.SetCellValue("Sheet1", "C"+startrow, "Начало")
@@ -101,51 +126,39 @@ func CreateExcel(sessions []Session) {
 			file.SetCellValue("Sheet1", "H"+startrow, "Цена Взрослый")
 			file.SetCellValue("Sheet1", "I"+startrow, "Цена Студенческий")
 			file.SetCellValue("Sheet1", "J"+startrow, "Цена Детский")
-			fmt.Println(startrow, "starting row!", "NUM: ", num)
+			fmt.Println(startrow, "starting row!")
 
+			bigjump = false
 			jump = false
 		}
 
+		CreateRow(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
+		fmt.Println(row, "info row!")
+
 		if len(sessions)-1 == i {
-			rowMaker(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
-			fmt.Println(row)
+			CreateRow(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
+
 			break
 		}
 
-		if sessions[i+1].startTime.Day() == sessions[i].startTime.Day() {
-			rowMaker(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
-		}
-
-		fmt.Println(row, "info row!")
-
-		if sessions[i+1].startTime.Day() > sessions[i].startTime.Day() {
-			fmt.Println(row, "do big jump!")
-
-			file.SetCellValue("Sheet1", "B"+startrow, "Зал"+fmt.Sprintf(" %d", sessions[i].hall_id)) //NEW STARTING ROW CAUSED BY INCREASE OF HALL ID
-			file.SetCellValue("Sheet1", "C"+startrow, "Начало")
-			file.SetCellValue("Sheet1", "D"+startrow, "Конец")
-			file.SetCellValue("Sheet1", "E"+startrow, "Длительность")
-			file.SetCellValue("Sheet1", "F"+startrow, "Разрыв (мин)")
-			file.SetCellValue("Sheet1", "G"+startrow, "Название")
-			file.SetCellValue("Sheet1", "H"+startrow, "Цена Взрослый")
-			file.SetCellValue("Sheet1", "I"+startrow, "Цена Студенческий")
-			file.SetCellValue("Sheet1", "J"+startrow, "Цена Детский")
-			fmt.Println(startrow, "starting row!", "NUM: ", num)
-
-			bigjump = true
-			num = num + 6
-		}
-
 		if sessions[i+1].hall_id > sessions[i].hall_id {
-			rowMaker(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
+
+			CreateRow(row, sessions[i].hall_id, starttime, endtime, duration, sessions[i].interval, sessions[i].name, sessions[i].priceAdult, sessions[i].priceStudent, sessions[i].priceChildren)
+
+			fmt.Println(row, "jump!", " ", num)
+
+			num = num + 5
+
+			fmt.Println("		!Number: ", num)
+
 			jump = true
-			fmt.Println(row, "go jump!", "NUM: ", num)
-			num = num + 4
-			fmt.Println("number + 4: ", num)
 		}
 
 	}
 
+	//}
+
+	file.SetCellValue("Sheet1", "F2", "Репертуар на 15 августа")
 	file.SaveAs("programming is interesting.xlsx")
 }
 
@@ -204,22 +217,6 @@ func main() {
 			hall_id:    2,
 			startTime:  time.Date(2022, time.August, 15, 17, 40, 0, 0, time.UTC),
 			endTime:    time.Date(2022, time.August, 15, 19, 20, 0, 0, time.UTC),
-			interval:   10,
-			session_id: "1nick3",
-		},
-		{
-			name:       "what's up?",
-			hall_id:    2,
-			startTime:  time.Date(2022, time.August, 16, 17, 40, 0, 0, time.UTC),
-			endTime:    time.Date(2022, time.August, 16, 19, 20, 0, 0, time.UTC),
-			interval:   10,
-			session_id: "1nick3",
-		},
-		{
-			name:       "welcome to goodland",
-			hall_id:    2,
-			startTime:  time.Date(2022, time.August, 17, 17, 40, 0, 0, time.UTC),
-			endTime:    time.Date(2022, time.August, 17, 19, 20, 0, 0, time.UTC),
 			interval:   10,
 			session_id: "1nick3",
 		},
