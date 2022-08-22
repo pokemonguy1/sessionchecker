@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"github.com/pokemonguy1/sessionchecker/model"
 	"sort"
 	"time"
 
@@ -142,10 +143,17 @@ func CreateExcel(sessions []Session) {
 
 	}
 
-	file.SaveAs("programming is interesting.xlsx")
+	file.SaveAs("schedule.xlsx")
 }
 
 func main() {
+
+	seancesss := []model.Seance{
+		{},
+	}
+
+	fmt.Println(seancesss)
+
 	Sessions := []Session{
 		{
 			name:       "superman",
@@ -200,22 +208,6 @@ func main() {
 			hall_id:    2,
 			startTime:  time.Date(2022, time.August, 15, 17, 40, 0, 0, time.UTC),
 			endTime:    time.Date(2022, time.August, 15, 19, 20, 0, 0, time.UTC),
-			interval:   10,
-			session_id: "1nick3",
-		},
-		{
-			name:       "what's up?",
-			hall_id:    2,
-			startTime:  time.Date(2022, time.August, 16, 17, 40, 0, 0, time.UTC),
-			endTime:    time.Date(2022, time.August, 16, 19, 20, 0, 0, time.UTC),
-			interval:   10,
-			session_id: "1nick3",
-		},
-		{
-			name:       "welcome to goodland",
-			hall_id:    2,
-			startTime:  time.Date(2022, time.August, 17, 17, 40, 0, 0, time.UTC),
-			endTime:    time.Date(2022, time.August, 17, 19, 20, 0, 0, time.UTC),
 			interval:   10,
 			session_id: "1nick3",
 		},

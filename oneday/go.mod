@@ -2,7 +2,10 @@ module oneday
 
 go 1.18
 
-require github.com/xuri/excelize/v2 v2.6.1
+require (
+	github.com/pokemonguy1/sessionchecker v0.0.0-20220822090627-3a13c4afcc14
+	github.com/xuri/excelize/v2 v2.6.1
+)
 
 require (
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
@@ -10,6 +13,7 @@ require (
 	github.com/richardlehane/msoleps v1.0.3 // indirect
 	github.com/xuri/efp v0.0.0-20220603152613-6918739fd470 // indirect
 	github.com/xuri/nfp v0.0.0-20220409054826-5e722a1d9e22 // indirect
+	go.mongodb.org/mongo-driver v1.10.1 // indirect
 	golang.org/x/crypto v0.0.0-20220817201139-bc19a97f63c8 // indirect
 	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
 	golang.org/x/text v0.3.7 // indirect
