@@ -1,11 +1,8 @@
-module github.com/pokemonguy1/sessionchecker
+module task2
 
 go 1.18
 
-require (
-	github.com/xuri/excelize/v2 v2.6.1
-	go.mongodb.org/mongo-driver v1.10.1
-)
+require github.com/xuri/excelize/v2 v2.6.1
 
 require (
 	github.com/mohae/deepcopy v0.0.0-20170929034955-c48cc78d4826 // indirect
