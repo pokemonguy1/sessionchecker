@@ -1,4 +1,4 @@
-package main
+package timeFormatter
 
 import (
 	"fmt"
